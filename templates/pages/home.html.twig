@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+	<div class="jumbotron">
+		<h1>Bienvenue sur alumni etudiant</h1>
+	</div>
+
+    	<div class="container">
+			<h1>Les derniers annonces mise en ligne</h1>
+
+			<div class="row flex">
+				{% for compagny in companies %}
+					<div class="col-3">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">
+									<a href="{{ path('compagny.show', {id:compagny.id, slug:compagny.slug} ) }}"> {{compagny.name}} </a>
+								</h5>
+                                <p class="card-text">{{compagny.adress}},{{compagny.country}}</p>
+                                <div class="text-primary">{{compagny.website }}</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+
+{% endblock %}
