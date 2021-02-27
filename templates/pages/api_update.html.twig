@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="container mt-4">
+			{% for infos in form %}
+			<form action="{{ path("pages.updateapi")}}">
+				<label>ID</label>
+				<input name="id" value="{{infos.id}}"/>
+				<label>User ID</label>
+				<input name="userId" value="{{infos.userId}}"/>
+				<label>Title</label>
+				<input name="title" value="{{infos.title}}"/>
+				<label>Body</label>
+				<input name="body" value="{{infos.body}}"/>
+
+				<button type="submit">Modifier Info</button>
+			</form>
+			{% endfor %}
+</div>
+{% endblock %}

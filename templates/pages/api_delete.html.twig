@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="container mt-4">
+			<form action="{{ path("pages.deleteapi")}}">
+				<label>ID</label>
+				<input name="id" value="0"/>
+				<button type="submit">Supprimer Info</button>
+			</form>
+</div>
+{% endblock %}

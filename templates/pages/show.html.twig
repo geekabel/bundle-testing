@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Le post-{{post.id}}</h1>
+    <h3>{{post.title}}-{{post.id}}</h3>
+    <img src="#" alt="">
+    <article>
+           <p>{{post.body}}</p> 
+    </article>
+
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="container mt-4">
+			{% for infos in form %}
+			<form action="{{ path("pages.addapi")}}">
+				<label>Title</label>
+				<input name="title" value="{{infos.title}}"/>
+				<label>Body</label>
+				<input name="body" value="{{infos.body}}"/>
+				<button type="submit">Ajouter Info</button>
+			</form>
+			{% endfor %}
+</div>
+{% endblock %}
