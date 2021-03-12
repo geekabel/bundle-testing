@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Dto\Transformer\PostResponseDtoTransformer;
 use App\Service\CallApiService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,13 +13,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApiClientController extends AbstractController
 {
-
-     private PostResponseDtoTransformer $postResponseDtoTransformer;
-
-    public function __construct(PostResponseDtoTransformer $postResponseDtoTransformer)
-    {
-        $this->postResponseDtoTransformer = $postResponseDtoTransformer;
-    }
     /**
      * @Route("/api/client", name="pages.api")
      */
@@ -57,32 +50,63 @@ class ApiClientController extends AbstractController
      * @Route("api/list", name ="pages.list")
      */
 
-    public function listAllPost(CallApiService $callApiService): Response
+    public function listAllPost(HttpClientInterface $httpClient, Request $request)
     {
         //$request = Request::createFromGlobals();
         //$page = $request->query->get('page');
         //dd($page);
-        $listPost = $callApiService->getPosts();
-        $dto = $this->postResponseDtoTransformer->transformFromObject($listPost);
-        dd($dto);
+        $httpClient = HttpClient::create();
+
+        $url = 'https://jsonplaceholder.typicode.com/posts';
+
+        $apiResponse = $httpClient->request('GET', $url, [
+            'headers' => [
+                'Accept-type' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
+        ]);
+
+        if ($apiResponse->getStatusCode() == 200) {
+            $listPost = $apiResponse->getContent();
+            $listPost = $apiResponse->toArray();
+        } else {
+            throw new Exception('La requete nas pas abouti');
+        }
 
         return $this->render('pages/list.html.twig', [
-            'posts' => $dto,
+            'posts' => $listPost,
         ]);
     }
-
     /**
      * @Route("api/list/{id}", name ="pages.show")
      */
 
-    public function listPostById(int $id, CallApiService $callApiService)
+    public function listPostById(int $id, HttpClientInterface $httpClient)
     {
         //$request = Request::createFromGlobals();
         //$page = $request->query->get('page');
         //dd($page);
-        $postById = $callApiService->getPostsById($id);
+        $httpClient = HttpClient::create();
+
+        $url = 'https://jsonplaceholder.typicode.com/posts/' . $id;
+
+        $apiResponse = $httpClient->request('GET', $url, [
+            'headers' => [
+                'Accept-type' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
+        ]);
+
+        if ($apiResponse->getStatusCode() == 200) {
+            $PostById = $apiResponse->getContent();
+            $PostById = $apiResponse->toArray();
+            //dd($PostById);
+        } else {
+            throw new Exception('La requete nas pas abouti');
+        }
+
         return $this->render('pages/show.html.twig', [
-            'post' => $postById,
+            'post' => $PostById,
         ]);
     }
 
@@ -178,4 +202,40 @@ class ApiClientController extends AbstractController
         return $this->render('pages/api_delete.html.twig');
     }
 
+    /**
+     * @Route("/api/test", name="pages.test")
+     */
+    public function test(CallApiService $callApiService)
+    {
+
+        dd($callApiService->getPosts());
+    }
+}
+
+//ExternalApiClient
+<?php
+namespace App\Dto;
+
+use App\Service\CallApiService;
+
+class ExternalApiClient
+{
+
+    private $transformer;
+    private $apiClient;
+
+    public function __construct($transformer, $apiClient)
+    {
+        $this->transformer = $transformer;
+        $this->apiClient = $apiClient;
+    }
+
+    public function getAllData(CallApiService $object): array
+    {
+        $dataToSend = $this->transformer($object);
+
+        $result = $this->apiClient->send($dataToSend);
+
+        return $result;
+    }
 }

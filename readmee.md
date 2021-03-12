@@ -56,13 +56,3 @@ class PostType extends AbstractType
     }
 }
 
-{% block body %}
-	{% for infos in data %}
-		<div class="card" style="width: 18rem;">
-			<img class="card-img-top" src="#" alt="">
-			<div class="card-body">
-				<h5 class="card-title">{{infos.body}}</h5>
-				<p>{{infos.title}}</p>		
-			</div>
-		</div>
-	{% endfor %}

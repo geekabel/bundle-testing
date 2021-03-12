@@ -2,12 +2,12 @@
 
 {% block body %}
 <div class="container mt-4">
+<h2 class="text-center" >Tout les posts</h2>
 {% for post in posts %}
 <div class="row py-2">
         <ul class="list-unstyled ">
-            <li> Titre :{{post.title ? post.title|slice(0,10)}}-{{post.id}}</li>
+            <li>Titre:{{post.title ? post.title|slice(0,10)}}-{{post.id}}</li>
         </ul>
-        <img src="#" alt="">
         <article>
            <p>{{post.body ? post.body|slice(0,200)~'...' : 'Pas de description'}}</p> 
         </article>
