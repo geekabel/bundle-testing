@@ -28,6 +28,11 @@ class CallApiService
     {
         return $this->getApi('posts/' . $id);
     }
+    public function sendPost($message)
+    {
+        return $this->postApi('posts', $message);
+    }
+
     private function getApi(String $var)
     {
         $response = $this->client->request('GET', 'https://jsonplaceholder.typicode.com/' . $var, [
@@ -40,4 +45,16 @@ class CallApiService
         return $response->toArray();
     }
 
+    private function postApi(String $var, array $message)
+    {
+
+        $response = $this->client->request('POST', 'https://jsonplaceholder.typicode.com/' . $var, [
+            'headers' => [
+                'Accept-type' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
+            'json' => $message,
+        ]);
+        return json_decode($response->getContent());
+    }
 }

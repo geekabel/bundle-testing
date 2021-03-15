@@ -15,13 +15,23 @@ class PostResponseDtoTransformer extends AbstractResponseDtoTransformer
      */
     public function transformFromObject($post): PostResponseDto
     {
-        $dto = new PostResponseDto();
 
-        $dto->userId = $post->getUserId();
-        $dto->id = $post->id;
-        $dto->title = $post->getTitle();
-        $dto->body = $post->getBody();
+        $dto = new PostResponseDto();
+        $dto->userId = $post['userId'];
+        $dto->id = $post['id'];
+        $dto->title = $post['title'];
+        $dto->body = $post['body'];
 
         return $dto;
+    }
+    
+    public function CollectionPostResponseDto(array $posts)
+    {
+        $collectionDto = [];
+        foreach ($posts as $post) {
+            $collectionDto[] = $this->transformFromObject($post);
+        }
+        return $collectionDto;
+
     }
 }

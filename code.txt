@@ -230,12 +230,20 @@ class ExternalApiClient
         $this->apiClient = $apiClient;
     }
 
-    public function getAllData(CallApiService $object): array
-    {
-        $dataToSend = $this->transformer($object);
+  public function getAllData(SomeObject $object): array
+{
+    // SomeObject is converted to structure with is required for external API
+    // Transformer is similar what was used in the video tutorial
+    $dto = $this->transformer->transform($object);
 
-        $result = $this->apiClient->send($dataToSend);
+    // Convert DTO object to json
+    $dataToSend = $this->jmsSerializer->serialize($dto, 'json');
 
-        return $result;
-    }
+    // Send request to external API
+    $result = $this->apiClient->send($dataToSend);
+
+    // do something with result
+
+    return $result;
+}
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Dto\Transformer\PostResponseDtoTransformer;
 use App\Service\CallApiService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ class ApiClientController extends AbstractController
     /**
      * @Route("/api/client", name="pages.api")
      */
-    public function fetchGitHubInformation(HttpClientInterface $httpClient): Response
+    public function fetchInformation(HttpClientInterface $httpClient): Response
     {
 
         $formData = [
@@ -44,8 +45,15 @@ class ApiClientController extends AbstractController
 
             'json' => $formData,
         ]);
+         if($response->getStatusCode() == 201){
 
-        $formData = json_decode($response->getContent());
+            $formData = json_decode($response->getContent());
+            $this->addFlash('success', 'le post a ete creer avec success');
+         }
+         else{
+             throw new Exception("le post n'a pas ete creer");
+         }
+       
         //dd($formData);
 
         return $this->render('pages/api.html.twig', [
@@ -63,9 +71,9 @@ class ApiClientController extends AbstractController
         //$page = $request->query->get('page');
         //dd($page);
         $listPost = $callApiService->getPosts();
-        $dto = $this->postResponseDtoTransformer->transformFromObject($listPost);
-        dd($dto);
-
+        $dto = $this->postResponseDtoTransformer->CollectionPostResponseDto($listPost);
+       
+       // dd($dto);
         return $this->render('pages/list.html.twig', [
             'posts' => $dto,
         ]);
@@ -89,29 +97,14 @@ class ApiClientController extends AbstractController
     /**
      * @Route("/api/client/addinfo", name="pages.addapi")
      */
-    public function ajouterInfo(Request $request, HttpClientInterface $httpClient): Response
+    public function ajouterInfo(Request $request,CallApiService $callApiService): Response
     {
         $formData = [
             'title' => $request->query->get("title"),
             'body' => $request->query->get("body"),
         ];
-
-        $httpClient = HttpClient::create();
-        //$numberOfresults = 30;
-        $url = 'https://jsonplaceholder.typicode.com/posts';
-
-        $response = $httpClient->request('POST', $url, [
-
-            'headers' => [
-                'Accept-type' => 'application/json',
-                'Content-Type' => 'application/json',
-            ],
-
-            'json' => $formData,
-        ]);
-
-        $formData = json_decode($response->getContent());
-        //dd($formData);
+        $formData =  $callApiService->sendPost($formData);
+       
 
         return $this->render('pages/api.html.twig', [
             'form' => [$formData],

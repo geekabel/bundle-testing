@@ -9,13 +9,13 @@ abstract class AbstractResponseDtoTransformer implements ResponseDtoTransformerI
 
     public function transformFromObjects(iterable $objects): iterable
     {
-        $dto = [];
+        $dtos = [];
 
         foreach ($objects as $object) {
-            # code...
-            $dto[] = $this->transformFromObject($object);
+
+            $dtos[] = $this->transformFromObject($object);
         }
-        return $object;
+        return $dtos;
     }
 
 }
