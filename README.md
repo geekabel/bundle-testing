@@ -1,5 +1,5 @@
 
-     public function fetchGitHubInformation(HttpClientInterface $httpClient, Request $request)
+     public function fetchInformation(HttpClientInterface $httpClient, Request $request)
      {
           $httpClient = HttpClient::create();
           //$numberOfresults = 30;
