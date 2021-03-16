@@ -15,6 +15,9 @@
     <a class="btn btn-primary pull-right" href="{{path('pages.show',{id:post.id})}}">Read More</a>
 </div>    
 {% endfor %}
+    <div class="d-flex justify-content-center navigation">
+        {{ knp_pagination_render(posts,'pagination/pagination.html.twig') }}
+    </div>
 </div>
 
 

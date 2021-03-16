@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Dto\Transformer\PostResponseDtoTransformer;
 use App\Service\CallApiService;
 use Exception;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,14 +66,20 @@ class ApiClientController extends AbstractController
      * @Route("api/list", name ="pages.list")
      */
 
-    public function listAllPost(CallApiService $callApiService): Response
+    public function listAllPost(CallApiService $callApiService, PaginatorInterface $paginator, Request $request): Response
     {
         //$request = Request::createFromGlobals();
         //$page = $request->query->get('page');
         //dd($page);
         $listPost = $callApiService->getPosts();
-        $dto = $this->postResponseDtoTransformer->CollectionPostResponseDto($listPost);
-       
+        $data = $this->postResponseDtoTransformer->CollectionPostResponseDto($listPost);
+        //Utilisation du Bundle KnpPaginator et de la donnee
+        //
+        $dto = $paginator->paginate(
+            $data,
+            $request->query->getInt('page',1),
+            6
+        );
        // dd($dto);
         return $this->render('pages/list.html.twig', [
             'posts' => $dto,
