@@ -25,30 +25,18 @@ class ApiClientController extends AbstractController
     /**
      * @Route("/api/client", name="pages.api")
      */
-    public function fetchInformation(HttpClientInterface $httpClient): Response
+    public function fetchInformation(CallApiService $callApiService): Response
     {
 
         $formData = [
             'title' => 'mon premier titre',
             'body' => 'le contenu de test fictif deuxieme partie',
         ];
-
-        $httpClient = HttpClient::create();
+        $postdata = $callApiService->sendPost($formData);
         //$numberOfresults = 30;
-        $url = 'https://jsonplaceholder.typicode.com/posts';
+         if($postdata->getStatusCode() == 201){
 
-        $response = $httpClient->request('POST', $url, [
-
-            'headers' => [
-                'Accept-type' => 'application/json',
-                'Content-Type' => 'application/json',
-            ],
-
-            'json' => $formData,
-        ]);
-         if($response->getStatusCode() == 201){
-
-            $formData = json_decode($response->getContent());
+            $formData = json_decode($postdata->getContent());
             $this->addFlash('success', 'le post a ete creer avec success');
          }
          else{
@@ -58,12 +46,13 @@ class ApiClientController extends AbstractController
         //dd($formData);
 
         return $this->render('pages/api.html.twig', [
-            'form' => [$formData],
+            'form' => [$postdata],
         ]);
     }
 
     /**
      * @Route("api/list", name ="pages.list")
+     * @param CallApiService $callApiService
      */
 
     public function listAllPost(CallApiService $callApiService, PaginatorInterface $paginator, Request $request): Response
@@ -71,10 +60,12 @@ class ApiClientController extends AbstractController
         //$request = Request::createFromGlobals();
         //$page = $request->query->get('page');
         //dd($page);
+        //Recuperation de service
         $listPost = $callApiService->getPosts();
+        //Passage en Objet(conversion)
         $data = $this->postResponseDtoTransformer->CollectionPostResponseDto($listPost);
+        
         //Utilisation du Bundle KnpPaginator et de la donnee
-        //
         $dto = $paginator->paginate(
             $data,
             $request->query->getInt('page',1),
@@ -85,7 +76,7 @@ class ApiClientController extends AbstractController
             'posts' => $dto,
         ]);
     }
-
+   // @Route("api/list", name ="pages.list")
     /**
      * @Route("api/list/{id}", name ="pages.show")
      */
@@ -108,13 +99,16 @@ class ApiClientController extends AbstractController
     {
         $formData = [
             'title' => $request->query->get("title"),
-            'body' => $request->query->get("body"),
+            'description' => $request->query->get("description"),
+            'price' => $request->query->get("price"),
+            'location' => $request->query->get("location"),
         ];
-        $formData =  $callApiService->sendPost($formData);
+      
+        $addinfo =  $callApiService->sendMicrojobs($formData);
        
 
         return $this->render('pages/api.html.twig', [
-            'form' => [$formData],
+            'form' => [$addinfo],
         ]);
     }
 
@@ -125,15 +119,16 @@ class ApiClientController extends AbstractController
     {
         $formData = [
             'id' => $request->query->get("id"),
-            'userId' => $request->query->get("userId"),
             'title' => $request->query->get("title"),
-            'body' => $request->query->get("body"),
+            'description' => $request->query->get("description"),
+            'price' => $request->query->get("price"),
+            'location' => $request->query->get("location"),
         ];
 
         $httpClient = HttpClient::create();
         //$numberOfresults = 30;
         //la concatenation
-        $url = 'https://jsonplaceholder.typicode.com/posts/' . $request->query->get("id");
+        $url = 'https://microjobs-api.herokuapp.com/microjobs/' . $request->query->get("id");
 
         $response = $httpClient->request('PUT', $url, [
 
@@ -165,7 +160,7 @@ class ApiClientController extends AbstractController
         $httpClient = HttpClient::create();
         //$numberOfresults = 30;
         //la concatenation
-        $url = 'https://jsonplaceholder.typicode.com/posts/' . $request->query->get("id");
+        $url = 'https://microjobs-api.herokuapp.com/microjobs/' . $request->query->get("id");
 
         $response = $httpClient->request('DELETE', $url);
 
@@ -176,6 +171,21 @@ class ApiClientController extends AbstractController
         //dd($formData);
 
         return $this->render('pages/api_delete.html.twig');
+    }
+    /**
+     * @Route("/api/client/microjobs" , name="pages.microjobs")
+     *
+     * @param CallApiService $callApiService
+     * @return $microjobs
+     */
+    public function listMicrojobs(CallApiService $callApiService)
+    {
+        $microjobs = $callApiService->getUser();
+        dd($microjobs);
+    return $this->render('pages/microjobs.html.twig',[
+            'microjobs'=> $microjobs
+    ]);
+
     }
 
 }

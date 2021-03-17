@@ -2,19 +2,30 @@
 
 {% block body %}
 <div class="container mt-4">
-			{% for infos in form %}
+		{% for infos in form %}
 			<form action="{{ path("pages.updateapi")}}">
-				<label>ID</label>
-				<input name="id" value="{{infos.id}}"/>
-				<label>User ID</label>
-				<input name="userId" value="{{infos.userId}}"/>
-				<label>Title</label>
-				<input name="title" value="{{infos.title}}"/>
-				<label>Body</label>
-				<input name="body" value="{{infos.body}}"/>
-
-				<button type="submit">Modifier Info</button>
+			<div class="form-group">
+				<label for="id">ID</label>
+				<input class="form-control" type="text" name="id" value="{{infos.id}}" />
+			</div>
+			<div class="form-group">
+				<label for="title">Title</label>
+				<input class="form-control" type="text" name="title" value="{{infos.title}}"/>
+			</div>
+			<div class="form-group">
+				<label>Description</label>
+				<input type="text" class="form-control" name="description" value="{{infos.description}}"/>
+			</div>
+			<div class="form-group">
+				<label>Price</label>
+				<input class="form-control" name="price" value="{{infos.price}}"/>
+			</div>
+			<div class="form-group">
+				<label for="location">location</label>
+				<input class="form-control" name="location" value="{{infos.location}}"/>
+			</div>
+				<button class="btn btn-primary" type="submit">Modifier Info</button>
 			</form>
-			{% endfor %}
+		{% endfor %}
 </div>
 {% endblock %}

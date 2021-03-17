@@ -2,10 +2,12 @@
 
 {% block body %}
 <div class="container mt-4">
-			<form action="{{ path("pages.deleteapi")}}">
-				<label>ID</label>
-				<input name="id" value="0"/>
-				<button type="submit">Supprimer Info</button>
+			<form action="{{path("pages.deleteapi")}}">
+				<div class="form-group">
+					<label for="id">ID</label>
+					<input class="form-control" type="text" name="id" id="id" value="0"/>
+				</div>
+				<button type="submit" class="btn btn-primary">Supprimer Info</button>
 			</form>
 </div>
 {% endblock %}

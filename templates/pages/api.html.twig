@@ -3,13 +3,26 @@
 {% block body %}
 <div class="container mt-4">
 			{% for infos in form %}
-			<form action="{{ path("pages.addapi")}}">
-				<label>Title</label>
-				<input name="title" value="{{infos.title}}"/>
-				<label>Body</label>
-				<input name="body" value="{{infos.body}}"/>
-				<button type="submit">Ajouter Info</button>
-			</form>
+		<form action="{{ path("pages.addapi")}}" method="POST">
+			<div class="form-group">
+				<label for="title">Title</label>
+				<input class="form-control" type="text" name="title" value="{{infos.title}}"/>
+			</div>
+			<div class="form-group">
+				<label>Description</label>
+				<input type="text" class="form-control" name="description" value="{{infos.description}}"/>
+			</div>
+			<div class="form-group">
+				<label>Price</label>
+				<input class="form-control" name="price" value="{{infos.price}}"/>
+			</div>
+			<div class="form-group">
+				<label for="location">location</label>
+				<input class="form-control" name="location" value="{{infos.location}}"/>
+			</div>
+			<button type="submit" class="btn btn-primary">Ajouter Info</button>
+		</form>
+
 			{% endfor %}
 </div>
 {% endblock %}

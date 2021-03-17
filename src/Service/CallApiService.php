@@ -16,7 +16,12 @@ class CallApiService
 
     public function getUser(): array
     {
-        return $this->getApi('users');
+        return $this->getApi('microjobs');
+    }
+
+    public function sendMicrojobs($message)
+    {
+        return $this->postApi('microjobs', $message);
     }
 
     public function getPosts(): array
@@ -24,10 +29,12 @@ class CallApiService
 
         return $this->getApi('posts');
     }
+
     public function getPostsById($id): array
     {
         return $this->getApi('posts/' . $id);
     }
+
     public function sendPost($message)
     {
         return $this->postApi('posts', $message);
@@ -35,7 +42,7 @@ class CallApiService
 
     private function getApi(String $var)
     {
-        $response = $this->client->request('GET', 'https://jsonplaceholder.typicode.com/' . $var, [
+        $response = $this->client->request('GET', 'https://microjobs-api.herokuapp.com/' . $var, [
             'headers' => [
                 'Accept-type' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -48,7 +55,7 @@ class CallApiService
     private function postApi(String $var, array $message)
     {
 
-        $response = $this->client->request('POST', 'https://jsonplaceholder.typicode.com/' . $var, [
+        $response = $this->client->request('POST', 'https://microjobs-api.herokuapp.com/' . $var, [
             'headers' => [
                 'Accept-type' => 'application/json',
                 'Content-Type' => 'application/json',
