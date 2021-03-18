@@ -100,7 +100,7 @@ class ApiClientController extends AbstractController
         $formData = [
            
             'title' => $request->query->get("title"),
-            'body' => $request->query->get("description"),
+            'body' => $request->query->get("body"),
         ];
         
             $addinfo =  $callApiService->sendMicrojobs($formData);
@@ -118,7 +118,7 @@ class ApiClientController extends AbstractController
         $formData = [
            
             'title' => $request->query->get("title"),
-            'body' => $request->query->get("description"),
+            'body' => $request->query->get("body"),
         ];
 
         $httpClient = HttpClient::create();
