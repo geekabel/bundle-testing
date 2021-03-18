@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use App\Dto\Transformer\PostResponseDtoTransformer;
 use App\Service\CallApiService;
 use Exception;
@@ -37,7 +38,7 @@ class ApiClientController extends AbstractController
          if($postdata->getStatusCode() == 201){
 
             $formData = json_decode($postdata->getContent());
-            $this->addFlash('success', 'le post a ete creer avec success');
+            //$this->addFlash('success', 'le post a ete creer avec success');
          }
          else{
              throw new Exception("le post n'a pas ete creer");
@@ -50,17 +51,15 @@ class ApiClientController extends AbstractController
         ]);
     }
 
-    /**
+    /** liste tout les post via le processus de DTO
      * @Route("api/list", name ="pages.list")
      * @param CallApiService $callApiService
      */
 
     public function listAllPost(CallApiService $callApiService, PaginatorInterface $paginator, Request $request): Response
     {
-        //$request = Request::createFromGlobals();
-        //$page = $request->query->get('page');
-        //dd($page);
-        //Recuperation de service
+        
+        //Recuperation des données issues du service
         $listPost = $callApiService->getPosts();
         //Passage en Objet(conversion)
         $data = $this->postResponseDtoTransformer->CollectionPostResponseDto($listPost);
@@ -97,16 +96,15 @@ class ApiClientController extends AbstractController
      */
     public function ajouterInfo(Request $request,CallApiService $callApiService): Response
     {
-        $formData = [
-            'title' => $request->query->get("title"),
-            'description' => $request->query->get("description"),
-            'price' => $request->query->get("price"),
-            'location' => $request->query->get("location"),
-        ];
-      
-        $addinfo =  $callApiService->sendMicrojobs($formData);
-       
 
+        $formData = [
+           
+            'title' => $request->query->get("title"),
+            'body' => $request->query->get("description"),
+        ];
+        
+            $addinfo =  $callApiService->sendMicrojobs($formData);
+      
         return $this->render('pages/api.html.twig', [
             'form' => [$addinfo],
         ]);
@@ -118,17 +116,15 @@ class ApiClientController extends AbstractController
     public function modifierInfo(Request $request, HttpClientInterface $httpClient): Response
     {
         $formData = [
-            'id' => $request->query->get("id"),
+           
             'title' => $request->query->get("title"),
-            'description' => $request->query->get("description"),
-            'price' => $request->query->get("price"),
-            'location' => $request->query->get("location"),
+            'body' => $request->query->get("description"),
         ];
 
         $httpClient = HttpClient::create();
         //$numberOfresults = 30;
         //la concatenation
-        $url = 'https://microjobs-api.herokuapp.com/microjobs/' . $request->query->get("id");
+        $url = 'https://jsonplaceholder.typicode.com/' . $request->query->get("id");
 
         $response = $httpClient->request('PUT', $url, [
 
@@ -178,7 +174,7 @@ class ApiClientController extends AbstractController
      * @param CallApiService $callApiService
      * @return $microjobs
      */
-    public function listMicrojobs(CallApiService $callApiService)
+    /*public function listMicrojobs(CallApiService $callApiService)
     {
         $microjobs = $callApiService->getUser();
         dd($microjobs);
@@ -186,6 +182,6 @@ class ApiClientController extends AbstractController
             'microjobs'=> $microjobs
     ]);
 
-    }
+    }*/
 
 }
