@@ -34,6 +34,7 @@ class ApiClientController extends AbstractController
             'body' => 'le contenu de test fictif deuxieme partie',
         ];
         $postdata = $callApiService->sendPost($formData);
+        
         //$numberOfresults = 30;
          if($postdata->getStatusCode() == 201){
 
@@ -75,7 +76,8 @@ class ApiClientController extends AbstractController
             'posts' => $dto,
         ]);
     }
-   // @Route("api/list", name ="pages.list")
+
+
     /**
      * @Route("api/list/{id}", name ="pages.show")
      */
@@ -91,24 +93,7 @@ class ApiClientController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/api/client/addinfo", name="pages.addapi")
-     */
-    public function ajouterInfo(Request $request,CallApiService $callApiService): Response
-    {
-
-        $formData = [
-           
-            'title' => $request->query->get("title"),
-            'body' => $request->query->get("body"),
-        ];
-        
-            $addinfo =  $callApiService->sendMicrojobs($formData);
-      
-        return $this->render('pages/api.html.twig', [
-            'form' => [$addinfo],
-        ]);
-    }
+   
 
     /**
      * @Route("/api/client/updatenfo", name="pages.updateapi")

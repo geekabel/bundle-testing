@@ -21,7 +21,7 @@ class CallApiService
 
     public function sendMicrojobs($message)
     {
-        return $this->postApi('posts', $message);
+        return $this->postApi('microjobs', $message);
     }
 
     public function getPosts(): array
