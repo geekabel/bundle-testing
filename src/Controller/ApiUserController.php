@@ -16,11 +16,12 @@ class ApiUserController extends AbstractController
      */
     public function create(Request $request, SerializerInterface $serializer): Response
     {
-
+        //Avec post
         $jsonRecu = $request->getContent();
-
+        var_dump($jsonRecu);
+        die();
         $user = $serializer->deserialize($jsonRecu, User::class, 'json');
-        dd($user);
+        //dd($user);
         /* return $this->render('api_user/index.html.twig', [
         'controller_name' => 'ApiUserController',
         ]);*/

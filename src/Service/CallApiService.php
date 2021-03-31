@@ -6,6 +6,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CallApiService
 {
+    public const BASE_URL = 'https://jsonplaceholder.typicode.com/';
 
     private $client;
 
@@ -14,25 +15,25 @@ class CallApiService
         $this->client = $client;
     }
 
-    public function getUser(): array
+    /*public function getUser(): array
     {
-        return $this->getApi('users');
-    }
+    return $this->getApi('users');
+    }*/
 
     public function sendMicrojobs($message)
     {
         return $this->postApi('microjobs', $message);
     }
 
-    public function getPosts(): array
+    public function getPosts()
     {
-
+        
         return $this->getApi('posts');
     }
-
-    public function getPostsById($id): array
+    
+    public function getPostsById($id)
     {
-        return $this->getApi('posts/' . $id);
+    return $this->getApi('posts/' . $id);
     }
 
     public function sendPost($message)
@@ -42,14 +43,14 @@ class CallApiService
 
     private function getApi(String $var)
     {
-        $response = $this->client->request('GET', 'https://jsonplaceholder.typicode.com/' . $var, [
+        $response = $this->client->request('GET', self::BASE_URL . $var, [
             'headers' => [
                 'Accept-type' => 'application/json',
                 'Content-Type' => 'application/json',
             ],
         ]);
 
-        return $response->toArray();
+        return $response->getContent();
     }
 
     private function postApi(String $var, array $message)

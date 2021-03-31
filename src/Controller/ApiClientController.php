@@ -3,16 +3,23 @@
 namespace App\Controller;
 
 
-use App\Dto\Transformer\PostResponseDtoTransformer;
-use App\Service\CallApiService;
 use Exception;
+use App\Entity\Post;
+use App\Service\CallApiService;
+use JMS\Serializer\SerializerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Dto\Transformer\PostResponseDtoTransformer;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class ApiClientController extends AbstractController
 {
@@ -60,12 +67,21 @@ class ApiClientController extends AbstractController
     public function listAllPost(CallApiService $callApiService, PaginatorInterface $paginator, Request $request): Response
     {
         
+        $serializer = new Serializer(
+            [new GetSetMethodNormalizer(), new ArrayDenormalizer()],
+            [new JsonEncoder()]
+        );
         //Recuperation des données issues du service
         $listPost = $callApiService->getPosts();
-        //Passage en Objet(conversion)
-        $data = $this->postResponseDtoTransformer->CollectionPostResponseDto($listPost);
         
+        //Passage en Objet(conversion)
+        //$data = $this->postResponseDtoTransformer->CollectionPostResponseDto($listPost);
+       
+            $data  = $serializer->deserialize($listPost,'App\Entity\Post[]','json');
+            //dd($data,$listPost);
+       
         //Utilisation du Bundle KnpPaginator et de la donnee
+       
         $dto = $paginator->paginate(
             $data,
             $request->query->getInt('page',1),
