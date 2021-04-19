@@ -53,7 +53,7 @@ class CallApiService
         return $response->getContent();
     }
 
-    private function postApi(String $var, array $message)
+    private function postApi(string $var, array $message)
     {
 
         $response = $this->client->request('POST', 'https://jsonplaceholder.typicode.com/' . $var, [

@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+{% for data in infos %}
+	<div class="container">
+	<h6>{{data.title}}</h6>
+	<div class="file-box">
+		<div class="file">
+			<a href="{{data.url}}" download>
+				<span class="corner"></span>
+				<div class="icon">
+					<i class="fa fa-file"></i>
+				</div>
+				<div class="file-name">
+					photo-{{data.id}}
+					<br>
+					<small>Added: Jan 11, 2014</small>
+				</div>
+			</a>
+		</div>
+
+	</div>
+	</div>
+{% endfor %}
+	
+
+{% endblock %}

@@ -59,7 +59,7 @@ class ApiClientController extends AbstractController
         ]);
     }
 
-    /** liste tout les post via le processus de DTO
+    /** liste tout les post via le processus de DTO/deserialisation
      * @Route("api/list", name ="pages.list")
      * @param CallApiService $callApiService
      */
@@ -77,7 +77,7 @@ class ApiClientController extends AbstractController
         //Passage en Objet(conversion)
         //$data = $this->postResponseDtoTransformer->CollectionPostResponseDto($listPost);
        
-            $data  = $serializer->deserialize($listPost,'App\Entity\Post[]','json');
+         $data  = $serializer->deserialize($listPost,'App\Entity\Post[]','json');
             //dd($data,$listPost);
        
         //Utilisation du Bundle KnpPaginator et de la donnee
@@ -169,20 +169,20 @@ class ApiClientController extends AbstractController
 
         return $this->render('pages/api_delete.html.twig');
     }
+
     /**
-     * @Route("/api/client/microjobs" , name="pages.microjobs")
+     * @Route("/api/client/images" , name="pages.download")
      *
      * @param CallApiService $callApiService
      * @return $microjobs
      */
-    /*public function listMicrojobs(CallApiService $callApiService)
+   /* public function downladImages(CallApiService $callApiService)
     {
-        $microjobs = $callApiService->getUser();
-        dd($microjobs);
-    return $this->render('pages/microjobs.html.twig',[
-            'microjobs'=> $microjobs
-    ]);
-
+        //Appel l'api depuis le service
+       $download = $callApiService->getImages();
+        return $this->render('pages/download.html.twig', [
+            'infos' => $download,
+        ]);
     }*/
 
 }
