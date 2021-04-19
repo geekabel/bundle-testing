@@ -1,4 +1,7 @@
 
+### GET REQUEST TO TEST HTTPCLIENT COMPONENT 
+     
+     
      public function fetchInformation(HttpClientInterface $httpClient, Request $request)
      {
           $httpClient = HttpClient::create();
@@ -30,7 +33,6 @@
         
           //return $this->render('pages/api.html.twig', $data);
      }
-{{path('pages.details')}}
 
 
 
