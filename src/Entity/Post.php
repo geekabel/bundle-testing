@@ -27,12 +27,22 @@ class Post
      */
     private $body;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $userId;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    public function setId(int $id): self
+    {
+         $this->id = $id;
+        
+        return $this;
+    }
     public function getTitle(): ?string
     {
         return $this->title;
@@ -57,7 +67,7 @@ class Post
         return $this;
     }
 
-  /*  public function getUserId(): ?int
+    public function getUserId(): ?int
     {
         return $this->userId;
     }
@@ -67,5 +77,7 @@ class Post
         $this->userId = $userId;
 
         return $this;
-    }*/
+    }
+
+  
 }

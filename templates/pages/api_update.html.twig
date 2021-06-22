@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-<div class="container mt-4">
+{# <div class="container mt-4">
 		{% for infos in form %}
 			<form action="{{ path("pages.updateapi")}}">
 			<div class="form-group">
@@ -19,5 +19,11 @@
 				<button class="btn btn-primary" type="submit">Modifier Info</button>
 			</form>
 		{% endfor %}
+</div> #}
+
+<div class="container mt-4">
+	{{ form_start(form_update) }}
+    		{{ form_widget(form_update) }}
+	{{ form_end(form_update) }}
 </div>
 {% endblock %}

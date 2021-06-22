@@ -7,7 +7,7 @@
 {% for post in posts %}
 <div class="row py-2">
         <ul class="list-unstyled">
-            <li><strong>Titre:</strong> {{post.title ? post.title|slice(0,80)}}-{{post.id}}</li>
+            <li><strong>Titre:</strong> {{post.title ? post.title|slice(0,150)}}-{{post.id}}</li>
         </ul>
         <article>
            <p>{{post.body ? post.body|slice(0,200)~'...' : 'Pas de description'}}</p> 
