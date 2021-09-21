@@ -15,6 +15,5 @@
 /phpunit.xml
 /phpunit.xml.dist
 ###< symfony/phpunit-bridge ###
-.env
 .env.test
 code.txt
