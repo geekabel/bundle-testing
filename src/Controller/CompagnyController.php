@@ -12,8 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class CompagnyController extends AbstractController
 {
     /**
-     * 
-     *
      * @var CompagnyRepository
      */
     private  $repository;

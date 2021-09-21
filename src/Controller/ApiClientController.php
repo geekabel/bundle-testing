@@ -174,7 +174,7 @@ class ApiClientController extends AbstractController
         $serializer = new Serializer([new ObjectNormalizer()]);
         $requete = $serializer->normalize($data,null);
         //dd($requete);
-            //$this->em->flush();
+        //$this->em->flush();
          $callApiService->editPosts($id,$requete);
         }
         

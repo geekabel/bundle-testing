@@ -1,0 +1,4 @@
+eloyekunle_permissions:
+  role_class: App\Entity\Role
+  module:
+    definitions_path: '%kernel.project_dir%/config/packages/eloyekunle_permissions.yaml'

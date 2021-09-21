@@ -16,7 +16,9 @@ class PostEntityType extends AbstractType
     {
         $builder
             ->add('title',TextType::class)
-            ->add('body',TextareaType::class)
+            ->add('body',TextareaType::class, [
+                'attr' => array('row' => '20','cols' => '10'),
+            ])
             ->add('Editer',SubmitType::class)
         ;
     }

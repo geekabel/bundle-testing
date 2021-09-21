@@ -1,0 +1,49 @@
+{
+    "name": "eloyekunle/permissions-bundle",
+    "description": "A Simple Permission Management Bundle for Symfony",
+    "type": "symfony-bundle",
+    "keywords": ["User management"],
+    "require": {
+        "php": "^7.0 || ^7.2 || ^7.4",
+        "doctrine/doctrine-bundle": "^1.9",
+        "doctrine/orm": "^2.8",
+        "symfony/framework-bundle": "^4.0 || ^4.4 || ^5.2",
+        "symfony/form": "^4.0 || ^4.4 || ^5.2",
+        "symfony/yaml": "^4.0 || ^4.4 || ^5.2",
+        "symfony/validator": "^4.0 || ^4.4 || ^5.2",
+        "symfony/security-bundle": "^4.0 || ^4.4 || ^5.2",
+        "symfony/twig-bundle": "^4.0 || ^4.4 || ^5.2",
+        "symfony/templating": "^4.0 || ^4.4 || ^5.2",
+        "twig/twig": "^2.12|^3.0",
+        "paragonie/random_compat": "^1 || ^2"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.2",
+        "symfony/phpunit-bridge": "^2.8 || ^3.0 || ^4.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Elijah Oyekunle",
+            "email": "eloyekunle@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Eloyekunle\\PermissionsBundle\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Eloyekunle\\PermissionsBundle\\Tests\\": "/Tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "master"
+        }
+    }
+}

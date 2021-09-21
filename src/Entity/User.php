@@ -4,18 +4,19 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Eloyekunle\PermissionsBundle\Model\User as BaseUser;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * 
  */
-class User
+class User extends BaseUser
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -59,10 +60,16 @@ class User
      */
     private $geo;
 
-    public function getId(): ?int
+    public function __construct()
     {
-        return $this->id;
+        parent::__construct();
+        
     }
+
+    // public function getId(): ?int
+    // {
+    //     return $this->id;
+    // }
 
     public function getName(): ?string
     {

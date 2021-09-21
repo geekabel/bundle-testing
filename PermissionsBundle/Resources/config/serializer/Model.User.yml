@@ -1,0 +1,4 @@
+Eloyekunle\PermissionsBundle\Model\User:
+    properties:
+        userRoles:
+            expose: true
