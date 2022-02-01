@@ -17,10 +17,10 @@ class Role extends BaseRole
      */
     protected $id;
 
-    // public function getId(): ?int
-    // {
-    //     return $this->id;
-    // }
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function __construct()
     {

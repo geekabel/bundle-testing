@@ -38,6 +38,7 @@ class User extends BaseUser
      */
     private $phone;
 
+    
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -66,7 +67,7 @@ class User extends BaseUser
         
     }
 
-    // public function getId(): ?int
+    // public function getId()
     // {
     //     return $this->id;
     // }
